@@ -1,27 +1,37 @@
-"""
-This script runs the application using a development server.
-It contains the definition of routes and views for the application.
-"""
+from flask import Flask,session,render_template,request,redirect,g,url_for 
 
-from flask import Flask, render_template
+import os
 
-app = Flask(__name__)
+app= Flask(__name__)
 
-# Make the WSGI interface available at the top level so wfastcgi can get it.
-wsgi_app = app.wsgi_app
+app.secret_key = os.urandom(24)
 
+@app.route('/',methods=['GET' , 'POST'])
+def index():
+    if request.method == 'POST':
+        session.pop('user', None)
 
-@app.route('/')
-def menu():
+        if request.form['password'] =='password':
+            session['user'] = request.form['username']
+            return redirect(url_for('protected'))
+
+            
     return render_template('login.html')
-    
+
+@app.route('/protected')
+def portected():
+    if g.user:
+        return render_template('protected.html',user=session['user'])
+    return redirect(url_for('login'))
+
+@app.before_request
+def before_request():
+    g.user = None
+
+    if 'user' in session:
+        g.user = session['user']
+
 
 
 if __name__ == '__main__':
-    import os
-    HOST = os.environ.get('SERVER_HOST', 'localhost')
-    try:
-        PORT = int(os.environ.get('SERVER_PORT', '5555'))
-    except ValueError:
-        PORT = 8080
-    app.run(HOST, PORT)
+    app.run(debug=True)
