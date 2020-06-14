@@ -13,14 +13,13 @@ def index():
 
         if request.form['password'] =='password':
             session['user'] = request.form['username']
-            return redirect(url_for('protected'))
+            return redirect(url_for('portected'))
     return render_template('index.html')
 
 @app.route('/protected')
 def portected():
-    if g.user:
+    if g.user == 'fireman':
         return render_template('protected.html',user=session['user'])
-    print('dupaaaaaaaaaaaaaaaaaaaaaaa')
     return redirect(url_for('index'))
 
 @app.before_request
@@ -30,7 +29,10 @@ def before_request():
     if 'user' in session:
         g.user = session['user']
 
-
+@app.route('/dropsession')
+def dropsession():
+    session.pop('user',None)
+    return render_template('index.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
