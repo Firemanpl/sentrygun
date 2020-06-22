@@ -3,7 +3,7 @@ from flask import Flask,session,render_template,request,redirect,g,url_for
 import os
 
 app= Flask(__name__)
-
+app.run(host='0.0.0.0')
 app.secret_key = os.urandom(24)
 
 @app.route('/',methods=['GET','POST'])
@@ -16,7 +16,7 @@ def index():
             return redirect(url_for('portected'))
     return render_template('index.html')
 
-@app.route('/protected')
+@app.route('/profile')
 def portected():
     if g.user == 'fireman':
         return render_template('protected.html',user=session['user'])
@@ -36,3 +36,4 @@ def dropsession():
 
 if __name__ == '__main__':
     app.run(debug=True)
+    
