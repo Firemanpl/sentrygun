@@ -3,7 +3,6 @@ from flask import Flask,session,render_template,request,redirect,g,url_for
 import os
 
 app= Flask(__name__)
-app.run(host='0.0.0.0')
 app.secret_key = os.urandom(24)
 
 @app.route('/',methods=['GET','POST'])
