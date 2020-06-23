@@ -82,4 +82,8 @@ header {
   border: none;
   background: transparent !important;
 }
+.nav-link{
+cursor:pointer;
+}
+
 
