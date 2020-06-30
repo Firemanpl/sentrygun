@@ -2,7 +2,7 @@
     background-color: black !important;
 }
 header {
-    padding: 156px 0 100px;
+    padding: 10px 0 10px;
   }
   .ham {
 	position: relative;
@@ -84,6 +84,17 @@ header {
 }
 .nav-link{
 cursor:pointer;
+}
+.livecam{
+height:100%;
+width:100%;
+}
+
+@media (min-width: 1200px) { 
+.livecam{
+height:60%;
+width:60%;
+}
 }
 
 
